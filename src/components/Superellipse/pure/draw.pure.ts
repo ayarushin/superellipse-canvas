@@ -1,5 +1,7 @@
 import { SuperellipseProps } from '../Superellipse';
 
+type DrawProps = SuperellipseProps & { width: number; height: number; };
+
 const MIN = -1;
 
 const x_min = MIN;
@@ -7,7 +9,7 @@ const x_max = -x_min;
 const y_min = MIN;
 const y_max = -x_min;
 
-export default (width: number, height: number, props: SuperellipseProps) => (ctx: CanvasRenderingContext2D) => {
+export default ({ color, degree, width, height }: DrawProps) => (ctx: CanvasRenderingContext2D) => {
   const dx = x_max / width;
   const sx = width / (x_max - x_min);
   const sy = height / (y_max - y_min);
@@ -16,13 +18,13 @@ export default (width: number, height: number, props: SuperellipseProps) => (ctx
 
   ctx.clearRect(0, 0, width, height);
 
-  ctx.strokeStyle = props.color || 'red';
-  ctx.fillStyle = props.color || 'red';
+  ctx.strokeStyle = color || 'red';
+  ctx.fillStyle = color || 'red';
 
   ctx.beginPath();
   for (let t = 0; t < 2 * Math.PI; t += Math.PI / 180) {
-    const x = Math.sign(Math.cos(t)) * Math.pow(Math.abs(Math.cos(t)), 2 / props.degree);
-    const y = Math.sign(Math.sin(t)) * Math.pow(Math.abs(Math.sin(t)), 2 / props.degree);
+    const x = Math.sign(Math.cos(t)) * Math.pow(Math.abs(Math.cos(t)), 2 / degree);
+    const y = Math.sign(Math.sin(t)) * Math.pow(Math.abs(Math.sin(t)), 2 / degree);
 
     const X = X0 + x * sx;
     const Y = Y0 - y * sy;
